@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_production_sheet" model="ir.actions.report">
+            <field name="name">Production Sheet</field>
+            <field name="model">production.print.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">cidmo_curtain.production_sheet_template</field>
+            <field name="report_file">cidmo_curtain.production_sheet_template</field>
+        </record>
+
+        <record id="report_delivery_note" model="ir.actions.report">
+            <field name="name">Delivery Note</field>
+            <field name="model">production.print.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">cidmo_curtain.delivery_note_template</field>
+            <field name="report_file">cidmo_curtain.delivery_note_template</field>
+        </record>
+
+        <record id="report_product_label" model="ir.actions.report">
+            <field name="name">Product Label</field>
+            <field name="model">production.print.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">cidmo_curtain.product_label_template</field>
+            <field name="report_file">cidmo_curtain.product_label_template</field>
+        </record>
+
+        <!-- Production Sheet Template -->
+        <template id="production_sheet_template">
+            <t t-call="web.html_container">
+                <t t-foreach="data['lines']" t-as="line">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>Production Sheet</h2>
+                            <p>Product: <t t-esc="line['product_name']"/></p>
+                            <p>Width: <t t-esc="line['width']"/></p>
+                            <p>Height: <t t-esc="line['height']"/></p>
+                            <p>Quantity: <t t-esc="line['quantity']"/></p>
+                            <p>Priority: <t t-esc="line['priority']"/></p>
+                            <p>Manufacturing Order: <t t-esc="line['mrp_name']"/></p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- Delivery Note Template -->
+        <template id="delivery_note_template">
+            <t t-call="web.html_container">
+                <t t-foreach="data['lines']" t-as="line">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>Delivery Note</h2>
+                            <p>Product: <t t-esc="line['product_name']"/></p>
+                            <p>Sales Order: <t t-esc="line['sale_name']"/></p>
+                            <p>Quantity: <t t-esc="line['quantity']"/></p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- Product Label Template -->
+        <template id="product_label_template">
+            <t t-call="web.html_container">
+                <t t-foreach="data['lines']" t-as="line">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>Product Label</h2>
+                            <p>Product: <t t-esc="line['product_name']"/></p>
+                            <p>Width: <t t-esc="line['width']"/></p>
+                            <p>Height: <t t-esc="line['height']"/></p>
+                            <p>Qty: <t t-esc="line['quantity']"/></p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

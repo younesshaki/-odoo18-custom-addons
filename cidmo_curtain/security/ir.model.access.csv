@@ -5,3 +5,4 @@ access_cidmo_wizard_install,cidmo_cidmo_wizard_install,model_cidmo_wizard_instal
 access_stock_treas,cidmo.stock_treas,model_stock_treas,,1,1,1,1
 access_production_dailly_details,cidmo.production_dailly_details,model_production_dailly_details,,1,1,1,1
 access_production_dailly_details_line,cidmo.production_dailly_details_line,model_production_dailly_details_line,,1,1,1,1
+access_production_print_wizard,production.print.wizard,model_production_print_wizard,base.group_user,1,1,1,1

@@ -11,7 +11,7 @@
     'website': "https://cidmo.odoo.com/",
     'version': '0.1',
     'category': 'Sales/CRM',
-    'depends': ['base', 'website_sale', 'project_mrp_sale'],
+    'depends': ['base', 'website_sale', 'mrp', 'project_mrp_sale'],
     'data': [
         'security/ir.model.access.csv',
         'views/res_partner.xml',
@@ -23,6 +23,8 @@
         'wizards/wizard_priority.xml',
         'wizards/wizard_install.xml',
         'wizards/production_dailly_details.xml',
+        'wizards/production_print_wizard.xml',
+        'reports/production_print_reports.xml',
         'data/product.xml',
         'report/mrp_production_report.xml',
     ],

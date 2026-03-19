@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 
 from odoo import fields, models, api
@@ -14,6 +15,33 @@ class ProductionDaillyDetails(models.TransientModel):
     sale_line_ids = fields.One2many('production.dailly.details.line', 'sale_parent_id', string='Orders')
     production_line_ids = fields.One2many('production.dailly.details.line', 'mrp_parent_id', string='Order Details')
 
+
+    def action_print_selected(self):
+        self.ensure_one()
+        selected_lines = self.production_line_ids.filtered(lambda l: l.is_selected)
+        if not selected_lines:
+            selected_lines = self.production_line_ids
+        lines_data = []
+        for line in selected_lines:
+            lines_data.append({
+                'product_name': line.product_name or '',
+                'width': line.width,
+                'height': line.height,
+                'quantity': line.quantity,
+                'priority': line.priority or '',
+                'mrp_name': line.mrp_id.name if line.mrp_id else '',
+                'sale_name': line.sale_id.name if line.sale_id else '',
+            })
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Print Options',
+            'res_model': 'production.print.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_lines_data': json.dumps(lines_data)
+            }
+        }
 
     def action_get_sale_orders(self):
         self.ensure_one()
@@ -79,3 +107,4 @@ class ProductionDaillyDetailsLine(models.TransientModel):
     sale_id = fields.Many2one('sale.order', string="Sale Order")
     sale_parent_id = fields.Many2one('production.dailly.details', string="Details Dailly")
     mrp_parent_id = fields.Many2one('production.dailly.details', string="Details Dailly")
+    is_selected = fields.Boolean('Select', default=False)

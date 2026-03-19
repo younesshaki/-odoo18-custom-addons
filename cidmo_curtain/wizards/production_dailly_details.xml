@@ -8,6 +8,11 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
+                        <button name="action_print_selected"
+                                type="object"
+                                string="Print"
+                                class="oe_highlight"
+                                invisible="is_form != True"/>
                     </header>
                     <sheet>
                         <group>
@@ -40,6 +45,7 @@
                         <group>
                             <field name="production_line_ids" readonly="1"  invisible="is_form != True">
                                 <list editable="bottom">
+                                    <field name="is_selected"/>
                                     <field name="line_no"/>
                                     <field name="product_name"/>
                                     <field name="width"/>
@@ -65,6 +71,6 @@
             <field name="target">inline</field>
         </record>
 
-        <menuitem id="menu_production_dailly_details" name="Production Dailly Details" parent="sale.sale_menu_root" action="action_production_dailly_details" sequence="11"/>
+        <menuitem id="menu_production_dailly_details" name="Production Dailly Details" parent="mrp.menu_mrp_root" action="action_production_dailly_details" sequence="11"/>
     </data>
 </odoo>
