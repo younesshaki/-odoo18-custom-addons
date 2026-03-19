@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="cidmo-view_production_lot_form" model="ir.ui.view">
+            <field name="name">stock.lot</field>
+            <field name="model">stock.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="width"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="cidmo_view_picking_type_form" model="ir.ui.view">
+            <field name="name">stock.picking.type.form.cidmo</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='locations']" position="inside">
+                    <label for="default_location_treas_id" name="default_location_treas_id_label"/>
+                    <div class="o_row" name="default_location_treas_id_div">
+                        <field name="default_location_treas_id" options="{'no_create': True}"/>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_stock_treas_form" model="ir.ui.view">
+            <field name="name">stock.treas.form</field>
+            <field name="model">stock.treas</field>
+            <field name="arch" type="xml">
+                <form string="Remnants">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_id" readonly="state == 'done'"/>
+                                <field name="product_uom_id" readonly="state == 'done'"/>
+                                <field name="qty" readonly="state == 'done'"/>
+                                <field name="width" readonly="state == 'done'"/>
+                            </group>
+                            <group>
+                                <field name="location_id" readonly="state == 'done'"/>
+                                <field name="location_dest_id" readonly="state == 'done'"/>
+                                <field name="date_done" readonly="state == 'done'"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_stock_treas_tree" model="ir.ui.view">
+            <field name="name">stock.treas.tree</field>
+            <field name="model">stock.treas</field>
+            <field name="arch" type="xml">
+                <list >
+                    <field name="product_id"/>
+                    <field name="product_uom_id"/>
+                    <field name="qty"/>
+                    <field name="width"/>
+                    <field name="location_id"/>
+                    <field name="location_dest_id"/>
+                    <field name="date_done"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_stock_treas" model="ir.actions.act_window">
+            <field name="name">Remnants</field>
+            <field name="res_model">stock.treas</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[]</field>
+        </record>
+
+    </data>
+</odoo>

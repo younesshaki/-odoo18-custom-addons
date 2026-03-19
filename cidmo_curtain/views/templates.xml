@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="cidmo_variants_v2" inherit_id="website_sale.variants" >
+        <xpath expr="//li[@t-foreach='ptavs']" position="replace">
+            <li t-foreach="ptavs" t-as="ptav" class="list-inline-item me-1">
+                <t t-set="img_style"
+                   t-value="'width: 90px; height: 100px; display: inline-block; border-radius: 5px;' if ptav.image else ''"
+                />
+                <t t-set="color_style"
+                   t-value="'width: 40px; height: 40px;background:' + str(ptav.html_color or ptav.name if not ptav.is_custom else '')"
+                />
+                <label t-attf-style="#{img_style or color_style}"
+                       t-attf-class="css_attribute_color #{'active' if ptav in combination else ''} #{'custom_value' if ptav.is_custom else ''} #{'transparent' if (not ptav.is_custom and not ptav.html_color) else ''}"
+                >
+                      <t t-if="ptav.image">
+                          <img class="cidmo_attribute_image" t-att-src="'/web/image/product.template.attribute.value/%s/image' % ptav.id" alt="White" style="width: 100%; height: 100%; object-fit: cover;"/>
+                      </t>
+                      <input type="radio"
+                        t-attf-class="js_variant_change  #{attribute.create_variant}"
+                        t-att-checked="ptav in combination"
+                        t-att-name="'ptal-%s' % ptal.id"
+                        t-att-value="ptav.id"
+                        t-att-title="ptav.name"
+                        t-att-data-attribute-value-id="ptav.product_attribute_value_id.id"
+                        t-att-data-value_id="ptav.id"
+                        t-att-data-value_name="ptav.name"
+                        t-att-data-attribute_name="attribute.name"
+                        t-att-data-is_custom="ptav.is_custom"
+                        t-att-data-is_single="single"
+                        t-att-data-is_single_and_custom="single_and_custom"/>
+                </label>
+            </li>
+
+
+
+        </xpath>
+    </template>
+
+
+    <template id="cidmo_product_v2" inherit_id="website_sale.product" >
+        <xpath expr="//div[hasclass('js_main_product')]/div[1]" position="after">
+            <div style="margin-bottom: 20px;">
+                <strong style="margin-bottom: 20px; flex-grow: 1; border-top: 1px solid var(--o-border-color); display: flex;" />
+                <div class="measurement-form clearfix" style="margin-bottom: 20px !important;">
+                    <div style="display: flex; justify-content: center; gap: 40px;">
+                        <div style="display: flex; justify-content: center;gap: 5px;">
+                            <input type="radio" id="MeasurementTypeM" style="accent-color: #0071e3;" class="form-check-input js_cidmo_change cidmo_update_palceholder" value="m" title="" name="measurementType" checked="true"/>
+                            <label for="MeasurementTypeM" title="">m</label>
+                        </div>
+                        <div style="display: flex; justify-content: center;gap: 5px;">
+                            <input type="radio" id="MeasurementTypeCm" style="accent-color: #0071e3;"  class="form-check-input js_cidmo_change cidmo_update_palceholder" value="cm" title="" name="measurementType"/>
+                            <label for="MeasurementTypeCm" title="">cm</label>
+                        </div>
+                        <div style="display: flex; justify-content: center;gap: 5px;">
+                            <input type="radio" id="MeasurementTypeMm" style="accent-color: #0071e3;"  class="form-check-input js_cidmo_change cidmo_update_palceholder" value="mm" title="" name="measurementType"/>
+                            <label for="MeasurementTypeMm" title="">mm</label>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px !important;">
+                    <div style="display: flex;align-items: center;gap: 10px;">
+                        <strong style="margin-bottom: 10px; font-weight: bold;font-size: 14px;color: black;">WIDTH</strong>
+                    </div>
+                    <select class="css_attribute_select o_wsale_product_attribute no_variant d-none">
+                            <option value="34" selected="selected" title="WIDTH">
+                                WIDTH
+                            </option>
+                    </select>
+                    <div style="justify-content: center; width: 100%">
+                        <div style="border-radius: 10px; overflow: hidden; border: 1px solid silver; display: flex; align-items: center;">
+                            <div style="background-color: grey; padding: 5px; border-radius: 10px 0 0 10px; width: 30px; height: 37px; display: flex; align-items: center; justify-content: center;">
+                                <img src="https://img.interiorgoodsdirect.com/blindsdirect/img/decor/width-icon.png" alt="Width Measurement" title="Width Measurement" loading="lazy" width="19" height="5"/>
+                            </div>
+                            <input type="text" name="cidmo_width" id="width" style="outline: none; width: 94%; height: 37px; border-color: #f000; padding-left: 5px;" class="js_cidmo_change_wh variant_custom_value custom_value_radio" placeholder="Waiting ..." title=""/>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div>
+                    <div style="display: flex;align-items: center;gap: 10px;">
+                        <strong style="margin-bottom: 10px; font-weight: bold;font-size: 14px;color: black;">HEIGHT</strong>
+                    </div>
+                    <select class="css_attribute_select o_wsale_product_attribute no_variant d-none">
+                            <option value="34" selected="selected" title="HEIGHT">
+                                HEIGHT
+                            </option>
+                    </select>
+                    <div style="justify-content: center; width: 100%;">
+                        <div style="border-radius: 10px; overflow: hidden; border: 1px solid silver; display: flex; align-items: center;">
+                            <div style="background-color: grey; padding: 5px; border-radius: 10px 0 0 10px; width: 30px; height: 37px; display: flex; align-items: center; justify-content: center;">
+                                <img src="https://img.interiorgoodsdirect.com/blindsdirect/img/decor/drop-icon.png" alt="Width Measurement" title="Width Measurement" loading="lazy" width="5" height="19"/>
+                            </div>
+                            <input type="text" name="cidmo_height" id="height" style="margin-top: 0rem !important; outline: none;  width: 94%; height: 37px; border-color: #f000; padding-left: 5px;" class="js_cidmo_change_wh variant_custom_value mt-2 custom_value_radio" placeholder="Waiting ..." title=""/>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+        </xpath>
+    </template>
+
+
+
+
+
+
+
+
+
+<!--    <template id="custom_sale_product" inherit_id="sale.Product">-->
+<!--        <xpath expr="//td[@class='p-3']" position="inside">-->
+<!--            <div style="margin-bottom: 20px;">-->
+<!--                <div style="display: flex; align-items: center; gap: 10px;">-->
+<!--                    <strong style="margin-bottom: 10px; font-weight: bold; font-size: 14px; color: black;">WIDTH</strong>-->
+<!--                </div>-->
+<!--                <div style="justify-content: center; width: 100%;">-->
+<!--                    <div style="border-radius: 10px; overflow: hidden; border: 1px solid silver; display: flex; align-items: center;">-->
+<!--                        <div style="background-color: grey; padding: 5px; border-radius: 10px 0 0 10px; width: 30px; height: 37px; display: flex; align-items: center; justify-content: center;">-->
+<!--                            <img src="https://img.interiorgoodsdirect.com/blindsdirect/img/decor/width-icon.png" alt="Width Measurement" title="Width Measurement" loading="lazy" width="19" height="5"/>-->
+<!--                        </div>-->
+<!--                        <input type="text" name="cidmo_width" id="width" style="outline: none; width: 94%; height: 37px; border-color: #f000; padding-left: 5px;" class="variant_custom_value custom_value_radio" placeholder="Enter width..." title=""/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div style="margin-bottom: 20px;">-->
+<!--                <div style="display: flex; align-items: center; gap: 10px;">-->
+<!--                    <strong style="margin-bottom: 10px; font-weight: bold; font-size: 14px; color: black;">HEIGHT</strong>-->
+<!--                </div>-->
+<!--                <div style="justify-content: center; width: 100%;">-->
+<!--                    <div style="border-radius: 10px; overflow: hidden; border: 1px solid silver; display: flex; align-items: center;">-->
+<!--                        <div style="background-color: grey; padding: 5px; border-radius: 10px 0 0 10px; width: 30px; height: 37px; display: flex; align-items: center; justify-content: center;">-->
+<!--                            <img src="https://img.interiorgoodsdirect.com/blindsdirect/img/decor/drop-icon.png" alt="Height Measurement" title="Height Measurement" loading="lazy" width="5" height="19"/>-->
+<!--                        </div>-->
+<!--                        <input type="text" name="cidmo_height" id="height" style="outline: none; width: 94%; height: 37px; border-color: #f000; padding-left: 5px;" class="variant_custom_value custom_value_radio" placeholder="Enter height..." title=""/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+
+</odoo>

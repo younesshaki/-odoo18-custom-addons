@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cidmo_mrp_production_form_viewm" model="ir.ui.view">
+            <field name="name">mrp.production.cidmo</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_raw_ids']" position="attributes">
+                    <attribute name="widget">one2many</attribute>
+                </xpath>
+                <xpath expr="//field[@name='move_raw_ids']/list" position="replace">
+                    <list default_order="is_done, manual_consumption desc, sequence" editable="bottom">
+                        <control>
+                            <create string="Add a line"/>
+                        </control>
+                        <field name="product_id" force_save="1" context="{'default_is_storable': True}" required="1" readonly="move_lines_count &gt; 0 or state == 'cancel' or (state != 'draft' and not additional)" domain="['&amp;', ('type', '=', 'consu'), ('id', '!=', parent.product_id)]"/>
+                        <field name="location_id" string="From" readonly="0" force_save="1" optional="show" options="{'no_create': True}"/>
+                        <field name="lot_id" string="Lot" required="has_tracking == 'lot'" invisible="has_tracking != 'lot'" force_save="1" optional="show" domain="[('product_id', '=', product_id)]"/>
+<!--                        <field name="lot_width" string="Lot width" readonly="1" force_save="1"  invisible="has_tracking != 'lot'"/>-->
+                        <field name="treas_id" string="Remnant" force_save="1" required="treas_source == True" invisible="treas_source != True" optional="show" domain="[('product_id', '=', product_id),('state', '=', 'done'),('is_used', '=', False)]" options="{'no_create': True}"/>
+<!--                        <field name="width" required="has_tracking == 'lot'" invisible="has_tracking != 'lot'" force_save="1" optional="show"/>-->
+                        <field name="price_unit" string="COST PRICE"/>
+                        <field name="product_uom_qty" force_save="1" string="To Consume" column_invisible="not parent.show_produce_all" readonly="parent.state != 'draft' and ((parent.state not in ('confirmed', 'progress', 'to_close') and not parent.is_planned) or (parent.is_locked and state != 'draft'))"/>
+                        <field name="product_uom_qty" widget="mrp_should_consume" force_save="1" string="To Consume" column_invisible="parent.show_produce_all" readonly="parent.state != 'draft' and ((parent.state not in ('confirmed', 'progress', 'to_close') and not parent.is_planned) or (parent.is_locked and state != 'draft'))"/>
+                        <field name="quantity" string="Quantity" column_invisible="parent.state == 'draft'" decoration-info="manual_consumption" decoration-bf="manual_consumption" readonly="has_tracking != 'none'" force_save="1"/>
+                        <field name="product_uom" readonly="1" force_save="1"/>
+
+
+                        <field name="propagate_cancel" column_invisible="True"/>
+                        <field name="treas_source" column_invisible="True"/>
+                        <field name="company_id" column_invisible="True"/>
+                        <field name="product_uom_category_id" column_invisible="True"/>
+                        <field name="name" column_invisible="True"/>
+                        <field name="allowed_operation_ids" column_invisible="True"/>
+                        <field name="unit_factor" column_invisible="True"/>
+                        <field name="date_deadline" column_invisible="True" force_save="1"/>
+                        <field name="date" column_invisible="True"/>
+                        <field name="additional" column_invisible="True"/>
+                        <field name="picking_type_id" column_invisible="True"/>
+                        <field name="is_storable" column_invisible="True"/>
+                        <field name="has_tracking" column_invisible="True"/>
+                        <field name="operation_id" column_invisible="True"/>
+                        <field name="is_done" column_invisible="True"/>
+                        <field name="bom_line_id" column_invisible="True"/>
+                        <field name="sequence" column_invisible="True"/>
+                        <field name="warehouse_id" column_invisible="True"/>
+                        <field name="is_locked" column_invisible="True"/>
+                        <field name="move_lines_count" column_invisible="True"/>
+                        <field name="location_dest_id" domain="[('id', 'child_of', parent.location_dest_id)]" column_invisible="True"/>
+                        <field name="state" column_invisible="True" force_save="1"/>
+                        <field name="should_consume_qty" column_invisible="True"/>
+                        <field name="product_qty" readonly="1" column_invisible="True"/>
+                        <field name="forecast_expected_date" column_invisible="True"/>
+                        <field name="forecast_availability" column_invisible="True" string="Forecast" widget="forecast_widget" optional="hide"/>
+                        <field name="picked" string="Consumed" column_invisible="True"/>
+                        <field name="manual_consumption" column_invisible="True" force_save="1"/>
+                        <field name="show_details_visible" column_invisible="True"/>
+<!--                        <field name="lot_ids" widget="many2many_tags" optional="hide" string="Lot/Serial Numbers" help="Displays the consumed Lot/Serial Numbers." groups="stock.group_production_lot" readonly="1" column_invisible="not parent.show_lot_ids or parent.state == 'draft'" invisible="not show_details_visible" options="{'create': [('parent.use_create_components_lots', '!=', False)]}" context="{'default_product_id': product_id}" domain="[('product_id','=',product_id)]"/>-->
+                        <field name="group_id" column_invisible="True"/>
+                    </list>
+                </xpath>
+                <xpath expr="//field[@name='product_description_variants']" position="after">
+                    <field name="width"/>
+                    <field name="height"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="location_src_id" readonly="state != 'draft'" string="Location"/>
+                    <field name="control_side" context="{'default_field_name': 'control_side'}"  readonly="state != 'draft'"/>
+                    <field name="roll_direction" context="{'default_field_name': 'roll_direction'}" readonly="state != 'draft'"/>
+                    <field name="fitting_method" context="{'default_field_name': 'fitting_method'}" readonly="state != 'draft'"/>
+                    <label for="treas_id"/>
+                    <div class="o_row">
+                        <field name="treas_id" readonly="1" force_save="1"/>
+                        <button name="action_assign_treas" type="object" icon="fa-magic" invisible="treas_id != False"/>
+                    </div>
+
+                </xpath>
+<!--                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">-->
+<!--                    <button class="oe_stat_button" name="action_view_treas" type="object" icon="fa-magic">-->
+<!--                        <div class="o_field_widget o_stat_info">-->
+<!--                            <span class="o_stat_text">Treasures</span>-->
+<!--                        </div>-->
+<!--                    </button>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+    </data>
+</odoo>

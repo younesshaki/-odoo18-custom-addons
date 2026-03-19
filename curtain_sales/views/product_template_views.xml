@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_only_form_view" model="ir.ui.view">
+        <field name="name">product.template.form.surface.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Adding custom fields after the 'categ_id' field -->
+            <xpath expr="//field[@name='categ_id']" position="after">
+                <group>
+                    <field name="flooring"/>
+                </group>
+            </xpath>
+            <!-- Adding Technical and Logistics fields in separate notebook pages -->
+            <xpath expr="//notebook" position="inside">
+                <!-- Technical Information -->
+                <page string="Technical Information">
+                    <group>
+                        <field name="thickness"/>
+                        <field name="openness_factor"/>
+                        <field name="color_fastness"/>
+                        <field name="certifications"/>
+                        <field name="sheer_band"/>
+                        <field name="solid_band"/>
+                    </group>
+                </page>
+
+                <!-- Logistics Information -->
+                <page string="Logistics Information">
+                    <group>
+                        <field name="uom"/>
+                        <field name="origin"/>
+                        <field name="weight"/>
+                        <field name="hs_code"/>
+                        <field name="composition"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

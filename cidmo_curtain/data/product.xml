@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+         <record id="cidmo_product_priority_express" model="product.template">
+            <field name="name">Priority: Express</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="standard_price">50</field>
+            <field name="list_price">50</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Priority Express</field>
+        </record>
+
+    </data>
+
+
+    <data noupdate="1">
+         <record id="cidmo_product_install_paid" model="product.template">
+            <field name="name">Installation: Paid</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="standard_price">180</field>
+            <field name="list_price">180</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="description_sale">Installation: Paid</field>
+        </record>
+
+    </data>
+</odoo>

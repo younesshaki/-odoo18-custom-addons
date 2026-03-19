@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cidmo_udc_values_view_form" model="ir.ui.view">
+            <field name="name">cidmo_udc_values_view_form</field>
+            <field name="model">cidmo.udc.values</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="cidmo_view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.cidmo</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <!--Pricelist-->
+                <xpath expr="//label[@for='pricelist_id']" position="attributes">
+		            <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[hasclass('o_row')][1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_invoice_id']" position="after">
+<!--                    <field name="customer_type"/>-->
+                    <field name="pricelist_id" readonly="state in ['cancel', 'sale']"/>
+                </xpath>
+<!--                <xpath expr="//field[@name='validity_date']" position="before">-->
+<!--                    <field name="priority" readonly="state in ['cancel', 'sale']"/>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='order_line']/list/field[@name='name']" position="after">
+                    <field name="width"/>
+                    <field name="height"/>
+                    <field name="dimension_z"/>
+                    <field name="size"/>
+                </xpath>
+<!--                <xpath expr="//field[@name='order_line']/list/field[@name='price_total']" position="attributes">-->
+<!--                    <attribute name="invisible">True</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='has_active_pricelist']" position="before">
+                    <field name="commitment_date"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <div name="so_button_below_order_lines" position="inside">
+                    <button
+                        string="Priority"
+                        name="action_add_priority"
+                        type="object"
+                        invisible="not order_line"/>
+                    <button
+                        string="Installation"
+                        name="action_add_installation"
+                        type="object"
+                        invisible="not order_line"/>
+                </div>
+
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Instructions" name="instructions">
+                        <group>
+                            <group name="options" string="OPTIONS">
+                                <field name="check_measure" context="{'default_field_name': 'check_measure'}" readonly="state in ['cancel', 'sale']"/>
+                                <field name="remove_product" context="{'default_field_name': 'remove_product'}" readonly="state in ['cancel', 'sale']"/>
+                                <field name="split_shipping" context="{'default_field_name': 'split_shipping'}" readonly="state in ['cancel', 'sale']"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

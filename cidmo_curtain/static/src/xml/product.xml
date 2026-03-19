@@ -1,0 +1,52 @@
+<templates>
+    <t t-inherit="sale.ProductList" t-inherit-mode="extension">
+        <xpath expr="//table/thead/tr/th[1]" position="after">
+            <th class="px-0 text-center border-bottom-0">Width</th>
+            <th class="px-0 text-center border-bottom-0">Height</th>
+        </xpath>
+    </t>
+
+
+    <t t-inherit="sale.Product" t-inherit-mode="extension">
+        <xpath expr="//td[3]" position="before">
+            <td t-if="env.showQuantityAndPrice" class="o_sale_product_configurator_width py-3 px-0 text-end"
+            >
+                <t t-if="!this.props.optional">
+                    <input type="number" class="o_input w-lg-75 mb-4 ms-lg-auto js_cidmo_change_wh variant_custom_value mt-2 custom_value_radio"
+                           t-att-value="this.props.width"
+                           placeholder="Enter width..."/>
+                </t>
+                <t t-else="">
+                    <t t-call="sale.product_price" name="sale_product_configurator_optional_price"/>
+                </t>
+            </td>
+            <td t-if="env.showQuantityAndPrice" class="o_sale_product_configurator_height py-3 px-0 text-end"
+        >
+            <t t-if="!this.props.optional">
+                <input type="number" class="o_input w-lg-75 mb-4 ms-lg-auto js_cidmo_change_wh variant_custom_value mt-2 custom_value_radio"
+                       t-att-value="this.props.height"
+                       placeholder="Enter height..."/>
+            </t>
+            <t t-else="">
+                <t t-call="sale.product_price" name="sale_product_configurator_optional_price"/>
+            </t>
+        </td>
+
+<!--            <div name="ptal" class="d-flex">-->
+<!--                <div class="d-flex flex-column flex-lg-row gap-2 mb-2">-->
+<!--                    <label class="fw-bold text-break">Height</label>-->
+<!--                </div>-->
+<!--                <input class="o_input w-lg-75 mb-4 ms-lg-auto" type="text" placeholder="Enter a customized value"/>-->
+<!--            </div>-->
+
+<!--            <div name="ptal" class="d-flex">-->
+<!--                <div class="d-flex flex-column flex-lg-row gap-2 mb-2">-->
+<!--                    <label class="fw-bold text-break">Width</label>-->
+<!--                </div>-->
+<!--                <input class="o_input w-lg-75 mb-4 ms-lg-auto" type="text" placeholder="Enter a customized value"/>-->
+<!--            </div>-->
+        </xpath>
+    </t>
+</templates>
+
+

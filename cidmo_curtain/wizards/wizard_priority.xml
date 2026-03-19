@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cidmo_wizard_priority_view_form" model="ir.ui.view">
+            <field name="name">cidmo_wizard_priority_view_form</field>
+            <field name="model">cidmo.wizard.priority</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="priority"/>
+                            <label for="quantity"/>
+                            <div class="o_row">
+                                <field name="quantity"/>
+                                <span>Unit(s)</span>
+                            </div>
+                            <field name="price_unit"/>
+
+                        </group>
+                    </sheet>
+
+                    <footer class="oe_edit_only">
+                        <button name="action_add_priority" string="Confirm" type="object" class="oe_highlight" data-hotkey="q"/>
+                        <button string="Discard" special="cancel" data-hotkey="x"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

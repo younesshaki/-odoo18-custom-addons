@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_mrp_production_form_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit.other_infos</field>
+        <field name="model">mrp.production</field> 
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+<xpath expr="//field[@name='bom_id']" position="after">
+<newline/>
+    <div>
+        <group colspan="4">
+            <field name="width" string="Width (m)"/>
+            <field name="height" string="Height (m)"/>
+        </group>
+    </div>
+</xpath>
+
+
+
+
+
+            <!-- Add a new page after the 'Components' page in the notebook -->
+            <xpath expr="//notebook/page[@name='components']" position="after">
+                <page string="Other Infos" name="other_infos">
+                    <group>
+                        <group string="Instructions">
+                            <field name="control_side"/>
+                            <field name="roll_direction"/>
+                            <field name="check_measure"/>
+                            <field name="remove_product"/>
+                            <field name="split_shipping"/>
+                        </group>
+                        <group string="Informations">
+                            <field name="location"/>
+                            <field name="location_other_1"/>
+                            <field name="location_other_2"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

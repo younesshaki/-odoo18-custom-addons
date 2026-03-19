@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cidmo_product_attribute_view_form" model="ir.ui.view">
+            <field name="name">product.attribute.cidmo</field>
+            <field name="model">product.attribute</field>
+            <field name="inherit_id" ref="product.product_attribute_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='display_type']" position="after">
+                    <field name="c_type" widget="radio" options="{'horizontal': True}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="cidmo_product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.cidmo</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="novelty"  widget="percentage" />
+                    <field name="waste" widget="percentage" />
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Documentation" name="documentations">
+                        <group>
+                            <group string="TECHNICAL">
+<!--                                <field name="c_widths"/>-->
+                                <field name="c_openess_factor"/>
+                                <field name="c_color_fastness"/>
+                                <field name="c_maximum_load"/>
+                                <field name="c_certifications"/>
+                                <field name="day_night"/>
+                            </group>
+                            <group string="LOGISTICTS">
+                                <field name="c_weights"/>
+                                <field name="c_composition"/>
+                                <field name="c_hs_code"/>
+                                <field name="c_origin"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Computation" name="computation">
+                        <group>
+                            <group string="QUANTITY">
+                                <field name="calculate_format"/>
+                                <field name="is_formul_1"/>
+                            </group>
+                            <group string="WASTE">
+                                <field name="novelty"  widget="percentage" />
+                                <field name="waste" widget="percentage" />
+                                <field name="orientation"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

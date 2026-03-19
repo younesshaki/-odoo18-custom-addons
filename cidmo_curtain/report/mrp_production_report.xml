@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+       <record id="report_mrp_layout" model="ir.actions.report">
+            <field name="name">Manufacturing Layout Report</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">cidmo_curtain.report_mrp_layout_template</field>
+            <field name="report_file">cidmo_curtain.report_mrp_layout_template</field>
+            <field name="print_report_name">'Layout Report - %s' % (object.name)</field>
+        </record>
+
+        <template id="report_mrp_layout_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                    <!-- Table 1 -->
+                    <h3>Orders</h3>
+                    <t t-set="idx" t-value="0"/>
+                    <!-- Single Table -->
+                    <table  class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th><strong> Line No.</strong></th>
+                                <th><strong> Quantity</strong></th>
+                                <th><strong> Item</strong></th>
+                                <th><strong> Width</strong></th>
+                                <th><strong> Height</strong></th>
+                                <th><strong> Priority</strong></th>
+                                <th><strong> Status</strong></th>
+                                <th><strong> Sales Order</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="so">
+                                <t t-foreach="so.order_line" t-as="so_line">
+                                    <t t-set="idx" t-value="idx + 1"/>
+                                    <tr>
+                                        <td><t t-esc="idx"/></td>
+                                        <td><t t-esc="so_line.product_uom_qty"/></td>
+                                        <td><t t-esc="so_line.product_id.name"/></td>
+                                        <td><t t-esc="so_line.width"/></td>
+                                        <td><t t-esc="so_line.height"/></td>
+                                        <td><t t-esc="so.priority"/></td>
+                                        <td><t t-esc="so.state"/></td>
+                                        <td><t t-esc="so.name"/></td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <br/>
+
+                    <!-- Table 2 -->
+                    <h3>Order Details</h3>
+                    <t t-set="idxx" t-value="0"/>
+                    <table  class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th><strong> Line No.</strong></th>
+                                <th><strong> Item</strong></th>
+                                <th><strong> Width</strong></th>
+                                <th><strong> Height</strong></th>
+                                <th><strong> Roll Width</strong></th>
+                                <th><strong> Priority</strong></th>
+                                <th><strong> Status</strong></th>
+                                <th><strong> Manufacturing Order</strong></th>
+                                <th><strong> Sale Order</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="so">
+                                <t t-foreach="so.mrp_production_ids" t-as="mrp">
+                                    <t t-set="idxx" t-value="idxx + 1"/>
+                                    <tr>
+                                        <td><t t-esc="idxx"/></td>
+                                        <td><t t-esc="mrp.product_id.name"/></td>
+                                        <td><t t-esc="mrp.width"/></td>
+                                        <td><t t-esc="mrp.height"/></td>
+                                        <td><t t-esc="mrp.roll_width"/></td>
+                                        <td><t t-esc="mrp.sale_line_id.order_id.priority if mrp.sale_line_id else 'standard'"/></td>
+                                        <td><t t-esc="mrp.state"/></td>
+                                        <td><t t-esc="mrp.name"/></td>
+                                        <td><t t-esc="so.name"/></td>
+
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+
+
+<!--                        &lt;!&ndash; Product Layout &ndash;&gt;-->
+<!--                        <h3 style="text-align: center;">Product Layout</h3>-->
+
+<!--                        <div style="display: flex; justify-content: center; margin-top: 20px;">-->
+<!--                            <div style="width: 600px; border: 1px solid #000; height: 400px; display: flex; justify-content: center; align-items: center; position: relative;">-->
+<!--                                &lt;!&ndash; Roll &ndash;&gt;-->
+<!--                                <div style="background-color: white; height: 100%; width: 100%; border: 2px solid #000;">-->
+<!--                                    <t t-set="orientation" t-value="'H'"/>-->
+<!--                                    <t t-if="orientation == 'H'">-->
+<!--                                        <div t-att-style="'background-color: #555; height: 100%; width: ' + str(((mo.width / int(mo.product_id.c_widths)) * 100 if mo.product_id.c_widths else 50)) + '%;'"></div>-->
+<!--                                    </t>-->
+<!--                                    <t t-else="">-->
+<!--                                        <div t-att-style="'background-color: #555; width: 100%; height: ' + str(((mo.width / int(mo.product_id.c_widths)) * 100 if mo.product_id.c_widths else 50)) + '%;'"></div>-->
+<!--                                    </t>-->
+<!--                                </div>-->
+
+<!--                                &lt;!&ndash; Roll info (needs position: relative on parent) &ndash;&gt;-->
+<!--                                <div style="position: absolute; bottom: 0; left: 10px;">-->
+<!--                                    <b>Roll Width:</b> <t t-esc="mo.product_id.c_widths"/> mm-->
+<!--                                </div>-->
+<!--                                <div style="position: absolute; bottom: 0; right: 10px;">-->
+<!--                                    <b>Cut Width:</b> <t t-esc="mo.width"/> mm-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div style="width: 50px; border: 1px solid #000; height: 400px; display: flex; justify-content: center; align-items: center; position: relative;">-->
+<!--                                <span style="font-size: 12px; font-weight: bold;">Roll</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div style="display: flex; justify-content: center;">-->
+<!--                            <div style="width: 600px; border: 1px solid #000; height: 50px; display: flex; justify-content: left; align-items: left; position: relative;">-->
+<!--                                <span style="font-size: 12px; font-weight: bold;">Roll</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
+    </data>
+</odoo>

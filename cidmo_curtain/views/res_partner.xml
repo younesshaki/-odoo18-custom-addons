@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="cidmo_view_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.cidmo</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="customer_type"/>
+                    <field name="lead_source" context="{'default_field_name': 'lead_source'}"/>
+                    <field name="map_reference" context="{'default_field_name': 'map_reference'}"/>
+                    <field name="preferences"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="cidmo_view_company_form" model="ir.ui.view">
+            <field name="name">res.company.cidmo</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="treas_location_id"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
