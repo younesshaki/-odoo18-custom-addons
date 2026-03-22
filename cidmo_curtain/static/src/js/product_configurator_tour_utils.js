@@ -3,8 +3,36 @@
 import { patch } from "@web/core/utils/patch";
 import { SaleOrderLineProductField } from '@sale/js/sale_product_field';
 import { ProductConfiguratorDialog } from "@sale/js/product_configurator_dialog/product_configurator_dialog";
+import { Product } from "@sale/js/product/product";
 import { serializeDateTime } from "@web/core/l10n/dates";
-import { applyProduct } from '@sale/js/sale_product_field';
+import { x2ManyCommands } from "@web/core/orm_service";
+import { getSelectedCustomPtav } from "@sale/js/sale_utils";
+
+// applyProduct is not exported from sale_product_field in Odoo 18, so we define it locally.
+async function applyProduct(record, product) {
+    const customAttributesCommands = [x2ManyCommands.set([])];
+    for (const ptal of product.attribute_lines) {
+        const selectedCustomPTAV = getSelectedCustomPtav(ptal);
+        if (selectedCustomPTAV) {
+            customAttributesCommands.push(
+                x2ManyCommands.create(undefined, {
+                    custom_product_template_attribute_value_id: [selectedCustomPTAV.id, "we don't care"],
+                    custom_value: ptal.customValue,
+                })
+            );
+        }
+    }
+    const noVariantPTAVIds = product.attribute_lines
+        .filter(ptal => ptal.create_variant === "no_variant")
+        .flatMap(ptal => ptal.selected_attribute_value_ids);
+
+    await record._update({
+        product_id: [product.id, product.display_name],
+        product_uom_qty: product.quantity,
+        product_no_variant_attribute_value_ids: [x2ManyCommands.set(noVariantPTAVIds)],
+        product_custom_attribute_value_ids: customAttributesCommands,
+    });
+}
 
 
 patch(SaleOrderLineProductField.prototype, {
@@ -17,10 +45,6 @@ patch(SaleOrderLineProductField.prototype, {
 
         console.log("Opening product configurator for sale order line", saleOrderLine);
         if (edit) {
-            /**
-             * no_variant and custom attribute don't need to be given to the configurator for new
-             * products.
-             */
             ptavIds.push(...this._getNoVariantPtavIds(saleOrderLine));
             customPtavs = await this._getCustomPtavs(saleOrderLine);
         }
@@ -57,24 +81,29 @@ patch(SaleOrderLineProductField.prototype, {
             ...this._getAdditionalDialogProps(),
         });
     }
-}
-)
+});
 
 
+// Declare Height and Width as valid optional props on ProductConfiguratorDialog
+ProductConfiguratorDialog.props = {
+    ...ProductConfiguratorDialog.props,
+    Height: { type: [Number, Boolean], optional: true },
+    Width: { type: [Number, Boolean], optional: true },
+};
 
-
+// Declare height and width as valid optional props on Product (passed via t-props from ProductList)
+Product.props = {
+    ...Product.props,
+    height: { type: [Number, Boolean], optional: true },
+    width: { type: [Number, Boolean], optional: true },
+};
 
 patch(ProductConfiguratorDialog.prototype, {
-
     _getAdditionalRpcParams() {
-        // Override this method to provide additional RPC parameters if needed.
         console.log(this.props);
         return {
             height: this.props.Height,
             width: this.props.Width,
         };
     }
-}
-)
-
-
+});

@@ -1,0 +1,21 @@
+<templates>
+    <t t-inherit="web.ListRenderer" t-inherit-mode="extension">
+        <!--
+            Replace the column label span in the is_selected header with a checkbox.
+            The checkbox calls onCidmoSelectAll (added via JS patch on ListRenderer).
+        -->
+        <xpath expr="//span[@t-esc='column.label']" position="replace">
+            <t t-if="column.name === 'is_selected'">
+                <input type="checkbox"
+                       class="o_cidmo_select_all"
+                       style="width:18px;height:18px;border:2px solid #000;cursor:pointer;margin:0;"
+                       t-on-click.stop="onCidmoSelectAll"/>
+            </t>
+            <t t-else="">
+                <span class="d-block min-w-0 text-truncate flex-grow-1 flex-shrink-1"
+                      t-att-class="isNumeric ? 'o_list_number_th' : ''"
+                      t-esc="column.label"/>
+            </t>
+        </xpath>
+    </t>
+</templates>

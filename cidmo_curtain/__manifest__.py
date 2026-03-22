@@ -31,7 +31,11 @@
     'assets': {
         'web.assets_backend': [
             'cidmo_curtain/static/src/xml/product.xml',
+            'cidmo_curtain/static/src/xml/production_list.xml',
             'cidmo_curtain/static/src/js/product_configurator_tour_utils.js',
+            'cidmo_curtain/static/src/js/select_all_header.js',
+            'cidmo_curtain/static/src/css/production_monitor.css',
+            'cidmo_curtain/static/src/js/multi_print.js',
         ],
         'web.assets_frontend': [
             'cidmo_curtain/static/src/js/variant_mixin_extend.js',

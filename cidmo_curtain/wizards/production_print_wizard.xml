@@ -6,19 +6,18 @@
             <field name="model">production.print.wizard</field>
             <field name="arch" type="xml">
                 <form string="Print Options">
-                    <group>
-                        <field name="production_sheet"/>
-                        <field name="delivery_note"/>
-                        <field name="product_label"/>
-                    </group>
+                    <sheet>
+                        <field name="lines_data" invisible="1"/>
+                        <group>
+                            <field name="production_sheet"/>
+                            <field name="delivery_note"/>
+                            <field name="product_label"/>
+                        </group>
+                    </sheet>
                     <footer>
-                        <button name="action_validate"
-                                string="Validate"
-                                type="object"
+                        <button name="action_validate" type="object" string="Validate"
                                 class="btn-primary"/>
-                        <button string="Cancel"
-                                special="cancel"
-                                class="btn-secondary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
                     </footer>
                 </form>
             </field>

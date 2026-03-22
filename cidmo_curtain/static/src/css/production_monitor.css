@@ -1,0 +1,80 @@
+/* Black border on all checkboxes in the list rows */
+.o_list_renderer .o_data_cell .o_checkbox input[type="checkbox"],
+.o_list_renderer .o_data_cell input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(0, 0, 0, 0.25) !important;
+    cursor: pointer;
+}
+
+/* Hide sort arrow and spacer inside the is_selected column header */
+th[data-name="is_selected"] .o_list_sortable_caret,
+th[data-name="is_selected"] .o_list_header_label_spacer {
+    display: none !important;
+}
+
+/* Left-align the flex container so the checkbox sits at the same edge as row checkboxes */
+th[data-name="is_selected"] .d-flex {
+    justify-content: flex-start;
+}
+
+/* Header select-all checkbox — match row checkbox style */
+th[data-name="is_selected"] input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    border: 2px solid rgba(0, 0, 0, 0.25) !important;
+    border-radius: .25em;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+    appearance: none;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+th[data-name="is_selected"] input[type="checkbox"]:checked {
+    background-color: #71639e;
+    border-color: #71639e !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+
+/* Remove right margin from row checkbox wrapper in is_selected column */
+td[name="is_selected"] .o-checkbox {
+    margin-right: 0 !important;
+}
+
+/* Print Options popup — style checkboxes to match list row checkboxes */
+div[name="production_sheet"] input[type="checkbox"],
+div[name="delivery_note"] input[type="checkbox"],
+div[name="product_label"] input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    border: 2px solid rgba(0, 0, 0, 0.25) !important;
+    border-radius: .25em;
+    cursor: pointer;
+    appearance: none;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-left: 145px;
+}
+
+div[name="production_sheet"] input[type="checkbox"]:checked,
+div[name="delivery_note"] input[type="checkbox"]:checked,
+div[name="product_label"] input[type="checkbox"]:checked {
+    background-color: #71639e;
+    border-color: #71639e !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+/* Change 'Order' labels for daily production wizard to blue */
+.o_form_label[for="sale_line_ids_0"],
+.o_form_label[for="production_line_ids_0"] {
+    color: #06061d !important;
+    font-size: 1.2em;
+    font-weight: bold;
+}

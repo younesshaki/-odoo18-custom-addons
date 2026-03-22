@@ -1,6 +1,7 @@
 import json
 from odoo import models, fields
 
+
 class ProductionPrintWizard(models.TransientModel):
     _name = 'production.print.wizard'
     _description = 'Production Print Wizard'
@@ -12,19 +13,31 @@ class ProductionPrintWizard(models.TransientModel):
 
     def action_validate(self):
         self.ensure_one()
-        if not any([self.production_sheet, self.delivery_note, self.product_label]):
-            return
         lines = json.loads(self.lines_data or '[]')
-        data = {'lines': lines}
+        if not lines:
+            return False
+
+        report_xmlids = []
         if self.production_sheet:
-            return self.env.ref(
-                'cidmo_curtain.report_production_sheet'
-            ).report_action(self, data=data)
+            report_xmlids.append('cidmo_curtain.report_production_sheet')
         if self.delivery_note:
-            return self.env.ref(
-                'cidmo_curtain.report_delivery_note'
-            ).report_action(self, data=data)
+            report_xmlids.append('cidmo_curtain.report_delivery_note')
         if self.product_label:
-            return self.env.ref(
-                'cidmo_curtain.report_product_label'
-            ).report_action(self, data=data)
+            report_xmlids.append('cidmo_curtain.report_product_label')
+
+        if not report_xmlids:
+            return False
+
+        report_urls = []
+        for xmlid in report_xmlids:
+            report = self.env.ref(xmlid)
+            url = '/report/pdf/%s/%s' % (report.report_name, self.id)
+            report_urls.append(url)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'cidmo_multi_print',
+            'params': {
+                'report_urls': report_urls,
+            },
+        }
