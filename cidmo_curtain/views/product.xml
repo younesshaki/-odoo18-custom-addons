@@ -22,23 +22,39 @@
                 <xpath expr="//field[@name='type']" position="after">
                     <field name="novelty"  widget="percentage" />
                     <field name="waste" widget="percentage" />
+                    <field name="flooring"/>
+                    <field name="sold_width"/>
+                    <field name="sold_length"/>
+                    <field name="type_multiplicator"/>
+                    <field name="muliplicator"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page string="Documentation" name="documentations">
                         <group>
                             <group string="TECHNICAL">
 <!--                                <field name="c_widths"/>-->
+                                <field name="thickness"/>
                                 <field name="c_openess_factor"/>
+                                <field name="openness_factor"/>
                                 <field name="c_color_fastness"/>
+                                <field name="color_fastness"/>
                                 <field name="c_maximum_load"/>
                                 <field name="c_certifications"/>
+                                <field name="certifications"/>
+                                <field name="sheer_band"/>
+                                <field name="solid_band"/>
                                 <field name="day_night"/>
                             </group>
                             <group string="LOGISTICTS">
                                 <field name="c_weights"/>
+                                <field name="weight"/>
                                 <field name="c_composition"/>
+                                <field name="composition"/>
                                 <field name="c_hs_code"/>
+                                <field name="hs_code"/>
                                 <field name="c_origin"/>
+                                <field name="origin"/>
+                                <field name="uom"/>
                             </group>
                         </group>
                     </page>

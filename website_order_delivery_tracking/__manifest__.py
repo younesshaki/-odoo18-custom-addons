@@ -21,7 +21,7 @@
 ###############################################################################
 {
     'name': "Website Order Delivery Tracking",
-    'version': '18.0.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Website',
     'summary': """Track order delivery status, and delivery partners can update 
     the status.""",

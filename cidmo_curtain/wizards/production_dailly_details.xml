@@ -74,7 +74,7 @@
             <field name="name">Production Dailly Details</field>
             <field name="res_model">production.dailly.details</field>
             <field name="view_mode">form</field>
-            <field name="target">inline</field>
+            <field name="target">current</field>
         </record>
 
         <menuitem id="menu_production_dailly_details" name="Production Dailly Details" parent="mrp.menu_mrp_root" action="action_production_dailly_details" sequence="11"/>

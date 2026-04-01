@@ -33,7 +33,7 @@ class Tracking(http.Controller):
         return request.render(
             'website_order_delivery_tracking.trackingTemplate')
 
-    @http.route(['/tracking/details/update'], type='json', auth="public",
+    @http.route(['/tracking/details/update'], type='jsonrpc', auth="public",
                 website=True)
     def input_data_processing(self, **post):
         """Fetch input json data sent from js"""
@@ -58,7 +58,7 @@ class Tracking(http.Controller):
         ]
         return tracking_details
 
-    @http.route('/tracking/details/edit', type='json', auth="public",
+    @http.route('/tracking/details/edit', type='jsonrpc', auth="public",
                 website=False,
                 csrf=False, methods=['GET', 'POST'])
     def track_data_edit(self, **post):

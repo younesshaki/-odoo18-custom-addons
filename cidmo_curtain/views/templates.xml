@@ -39,7 +39,7 @@
 
 
     <template id="cidmo_product_v2" inherit_id="website_sale.product" >
-        <xpath expr="//div[hasclass('js_main_product')]/div[1]" position="after">
+        <xpath expr="//div[@id='o_wsale_product_details_content']/form/t[@name='variant_info']" position="after">
             <div style="margin-bottom: 20px;">
                 <strong style="margin-bottom: 20px; flex-grow: 1; border-top: 1px solid var(--o-border-color); display: flex;" />
                 <div class="measurement-form clearfix" style="margin-bottom: 20px !important;">

@@ -68,7 +68,7 @@ class StockTreas(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done')],
-        string='Status', default="draft", readonly=True, tracking=True)
+        string='Status', default="draft", readonly=True)
     date_done = fields.Datetime('Date', readonly=True)
     is_used = fields.Boolean('Is Used', default=False)
 
@@ -113,7 +113,6 @@ class StockTreas(models.Model):
     def _create_stock_moves(self):
         self.ensure_one()
         move = self.env['stock.move'].create({
-            'name': self.product_id.name,
             'product_id': self.product_id.id,
             'product_uom_qty': self.qty,
             'width': self.width,

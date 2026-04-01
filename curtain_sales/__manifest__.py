@@ -1,16 +1,12 @@
 {
     'name': 'Curtain Sales',
-    "version": "18.0.1.1.0",
-    'summary': 'Ensure products selected in sales quotations with curtain-specific attributes',
-    'description': 'Custom module for curtain sales',
+    "version": "19.0.1.0.0",
+    'summary': 'Compatibility shim for the consolidated cidmo curtain stack',
+    'description': 'Keeps legacy databases upgradeable while curtain logic lives in cidmo_curtain.',
     'author': 'zaimjawhar@gmail.com',
-    'depends': [ 'web' ,'website_sale', 'sale','base','sale_management', 'sale_product_configurator','mrp'],
-
-   'data': [
-            'views/product_template_views.xml',
-            'views/sale_order_line_views.xml',
-            'views/mrp_production_views.xml',
-    ],
+    'license': 'LGPL-3',
+    'depends': ['cidmo_curtain'],
+    'data': [],
     'installable': True,
-    'application': True,
+    'application': False,
 }

@@ -1,8 +1,9 @@
 import json
 import logging
-from datetime import timedelta
+from datetime import datetime, time, timedelta
 
 from odoo import fields, models, api
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -31,6 +32,18 @@ class ProductionDaillyDetails(models.TransientModel):
     select_all = fields.Boolean('Select All', default=False)
     sale_line_ids = fields.One2many('production.dailly.details.line', 'sale_parent_id', string='Orders')
     production_line_ids = fields.One2many('production.dailly.details.line', 'mrp_parent_id', string='Order Details')
+
+    def _get_mrp_domain(self):
+        self.ensure_one()
+        target_date = self.date or fields.Date.today()
+        start_dt = datetime.combine(target_date, time.min)
+        end_dt = datetime.combine(target_date, time.max)
+        return [
+            '|', '|',
+            '&', ('date_start', '>=', start_dt), ('date_start', '<=', end_dt),
+            '&', ('date_deadline', '>=', start_dt), ('date_deadline', '<=', end_dt),
+            '&', ('create_date', '>=', start_dt), ('create_date', '<=', end_dt),
+        ]
 
     @api.onchange('select_all')
     def _onchange_select_all(self):
@@ -69,9 +82,7 @@ class ProductionDaillyDetails(models.TransientModel):
             mrp_productions = self.env['mrp.production'].browse(mrp_ids)
         else:
             _logger.info("mrp_id empty on transient lines, falling back to direct DB search")
-            mrp_productions = self.env['mrp.production'].search([
-                ('create_date', '>=', self.date)
-            ])
+            mrp_productions = self.env['mrp.production'].search(self._get_mrp_domain())
 
         _logger.info("Found %s MRP productions", len(mrp_productions))
 
@@ -90,8 +101,8 @@ class ProductionDaillyDetails(models.TransientModel):
         _logger.info("lines_data: %s", lines_data)
 
         if not lines_data:
-            _logger.warning("No MRP productions found for date >= %s", self.date)
-            return
+            _logger.warning("No MRP productions found for %s", self.date)
+            raise UserError("No manufacturing orders were found for the selected date.")
 
         return {
             'type': 'ir.actions.act_window',
@@ -130,7 +141,7 @@ class ProductionDaillyDetails(models.TransientModel):
         data['sale_line_ids'] = sale_line_ids
 
         # Get ALL MRP productions created on or after the selected date
-        all_mrp = self.env['mrp.production'].search([('create_date', '>=', self.date)])
+        all_mrp = self.env['mrp.production'].search(self._get_mrp_domain())
         i = 0
         for mrp in all_mrp:
             mrp_status = MRP_STATUS_MAP.get(mrp.state, mrp.state or '')

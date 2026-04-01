@@ -1,1 +1,1 @@
-from . import website_sale_custom
+"""Legacy controller package kept empty on purpose."""

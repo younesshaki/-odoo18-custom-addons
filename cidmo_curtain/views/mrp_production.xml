@@ -10,7 +10,7 @@
                     <attribute name="widget">one2many</attribute>
                 </xpath>
                 <xpath expr="//field[@name='move_raw_ids']/list" position="replace">
-                    <list default_order="is_done, manual_consumption desc, sequence" editable="bottom">
+                    <list default_order="manual_consumption desc, sequence" editable="bottom">
                         <control>
                             <create string="Add a line"/>
                         </control>
@@ -30,8 +30,6 @@
                         <field name="propagate_cancel" column_invisible="True"/>
                         <field name="treas_source" column_invisible="True"/>
                         <field name="company_id" column_invisible="True"/>
-                        <field name="product_uom_category_id" column_invisible="True"/>
-                        <field name="name" column_invisible="True"/>
                         <field name="allowed_operation_ids" column_invisible="True"/>
                         <field name="unit_factor" column_invisible="True"/>
                         <field name="date_deadline" column_invisible="True" force_save="1"/>
@@ -41,7 +39,6 @@
                         <field name="is_storable" column_invisible="True"/>
                         <field name="has_tracking" column_invisible="True"/>
                         <field name="operation_id" column_invisible="True"/>
-                        <field name="is_done" column_invisible="True"/>
                         <field name="bom_line_id" column_invisible="True"/>
                         <field name="sequence" column_invisible="True"/>
                         <field name="warehouse_id" column_invisible="True"/>
@@ -57,7 +54,6 @@
                         <field name="manual_consumption" column_invisible="True" force_save="1"/>
                         <field name="show_details_visible" column_invisible="True"/>
 <!--                        <field name="lot_ids" widget="many2many_tags" optional="hide" string="Lot/Serial Numbers" help="Displays the consumed Lot/Serial Numbers." groups="stock.group_production_lot" readonly="1" column_invisible="not parent.show_lot_ids or parent.state == 'draft'" invisible="not show_details_visible" options="{'create': [('parent.use_create_components_lots', '!=', False)]}" context="{'default_product_id': product_id}" domain="[('product_id','=',product_id)]"/>-->
-                        <field name="group_id" column_invisible="True"/>
                     </list>
                 </xpath>
                 <xpath expr="//field[@name='product_description_variants']" position="after">
@@ -69,10 +65,16 @@
                     <field name="control_side" context="{'default_field_name': 'control_side'}"  readonly="state != 'draft'"/>
                     <field name="roll_direction" context="{'default_field_name': 'roll_direction'}" readonly="state != 'draft'"/>
                     <field name="fitting_method" context="{'default_field_name': 'fitting_method'}" readonly="state != 'draft'"/>
+                    <field name="check_measure" readonly="1"/>
+                    <field name="remove_product" readonly="1"/>
+                    <field name="split_shipping" readonly="1"/>
+                    <field name="location"/>
+                    <field name="location_other_1"/>
+                    <field name="location_other_2"/>
                     <label for="treas_id"/>
                     <div class="o_row">
                         <field name="treas_id" readonly="1" force_save="1"/>
-                        <button name="action_assign_treas" type="object" icon="fa-magic" invisible="treas_id != False"/>
+                        <button name="action_assign_treas" type="object" icon="fa-magic" title="Assign Remnant" invisible="treas_id != False"/>
                     </div>
 
                 </xpath>

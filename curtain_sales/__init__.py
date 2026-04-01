@@ -1,2 +1,1 @@
-from . import models
-from . import controllers
+"""Compatibility module kept only for Odoo 19 upgrades."""

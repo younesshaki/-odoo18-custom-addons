@@ -30,11 +30,18 @@
                 <xpath expr="//field[@name='partner_invoice_id']" position="after">
 <!--                    <field name="customer_type"/>-->
                     <field name="pricelist_id" readonly="state in ['cancel', 'sale']"/>
+                    <field name="priority_type" readonly="state in ['cancel', 'sale']"/>
+                    <field name="lead_source" readonly="state in ['cancel', 'sale']"/>
                 </xpath>
 <!--                <xpath expr="//field[@name='validity_date']" position="before">-->
 <!--                    <field name="priority" readonly="state in ['cancel', 'sale']"/>-->
 <!--                </xpath>-->
                 <xpath expr="//field[@name='order_line']/list/field[@name='name']" position="after">
+                    <field name="line_width"/>
+                    <field name="line_length"/>
+                    <field name="line_depth"/>
+                    <field name="line_area"/>
+                    <field name="line_volume"/>
                     <field name="width"/>
                     <field name="height"/>
                     <field name="dimension_z"/>
@@ -43,7 +50,7 @@
 <!--                <xpath expr="//field[@name='order_line']/list/field[@name='price_total']" position="attributes">-->
 <!--                    <attribute name="invisible">True</attribute>-->
 <!--                </xpath>-->
-                <xpath expr="//field[@name='has_active_pricelist']" position="before">
+                <xpath expr="//field[@name='payment_term_id']" position="before">
                     <field name="commitment_date"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_invoice_id']" position="attributes">

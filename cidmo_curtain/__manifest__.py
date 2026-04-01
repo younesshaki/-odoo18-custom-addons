@@ -9,9 +9,18 @@
     """,
     'author': "zaimjawhar@gmail.com",
     'website': "https://cidmo.odoo.com/",
-    'version': '0.1',
+    'license': 'LGPL-3',
+    'version': '19.0.1.0.0',
     'category': 'Sales/CRM',
-    'depends': ['base', 'website_sale', 'mrp', 'project_mrp_sale'],
+    'depends': [
+        'base',
+        'web',
+        'website_sale',
+        'sale_management',
+        'mrp',
+        'stock',
+        'project_mrp_sale',
+    ],
     'data': [
         'security/ir.model.access.csv',
         'views/res_partner.xml',
@@ -43,4 +52,3 @@
         ],
     },
 }
-
